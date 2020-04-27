@@ -1,5 +1,6 @@
 <?php
+$linetype = Linetype::load(LINETYPE_NAME);
 
 return [
-    'data' => Linetype::suggested(LINETYPE_NAME),
+    'data' => $linetype->get_suggested_values(),
 ];

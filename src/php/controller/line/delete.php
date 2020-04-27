@@ -1,5 +1,6 @@
 <?php
+$linetype = Linetype::load(LINETYPE_NAME);
 
 return [
-    'data' => Linetype::delete(LINETYPE_NAME, LINE_ID),
+    'data' => $linetype->delete(get_query_filters()),
 ];

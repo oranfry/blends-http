@@ -1,5 +1,8 @@
 <?php
+$linetype = Linetype::load(LINETYPE_NAME);
+
+kayoh_log('blends-http linetype print');
 
 return [
-    'data' => Linetype::print(LINETYPE_NAME, LINE_ID),
+    'data' => $linetype->print(get_query_filters()),
 ];

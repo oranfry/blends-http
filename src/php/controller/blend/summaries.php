@@ -1,5 +1,6 @@
 <?php
+$blend = Blend::load(BLEND_NAME);
 
 return [
-    'data' => Blend::summaries(BLEND_NAME, get_query_filters()),
+    'data' => $blend->summaries(get_query_filters()),
 ];

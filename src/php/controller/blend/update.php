@@ -1,5 +1,7 @@
 <?php
+$blend = Blend::load(BLEND_NAME);
+$data = json_decode(file_get_contents('php://input'));
 
 return [
-    'data' => Blend::update(BLEND_NAME, get_query_filters(), json_decode(file_get_contents('php://input'))),
+    'data' => $blend->update(get_query_filters(), $data),
 ];

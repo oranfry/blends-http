@@ -1,6 +1,15 @@
 <?php
 define('LAYOUT', 'line');
 
+$linetype = Linetype::load(LINETYPE_NAME);
+$line = @$linetype->find_lines([(object)['field' => 'id', 'value' => LINE_ID]])[0];
+
+if (!$line) {
+    error_response('No such line', 400);
+}
+
+$linetype->load_children($line);
+
 return [
-    'linehtml' => Linetype::html(LINETYPE_NAME, LINE_ID),
+    'linehtml' => $linetype->ashtml($line),
 ];

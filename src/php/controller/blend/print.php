@@ -1,5 +1,7 @@
 <?php
+$blend = Blend::load(BLEND_NAME);
 
 return [
-    'data' => Blend::print(BLEND_NAME, get_query_filters())
+    'data' => $blend->print(get_query_filters()),
 ];
+

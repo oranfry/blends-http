@@ -1,5 +1,7 @@
 <?php
+$linetype = Linetype::load(LINETYPE_NAME);
+$lines = json_decode(file_get_contents('php://input'));
 
 return [
-    'data' => Linetype::unlink(LINETYPE_NAME, LINE_ID, PARENTTYPE_NAME, PARENT_ID),
+    'data' => $linetype->unlink($lines),
 ];

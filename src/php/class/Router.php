@@ -2,34 +2,39 @@
 class Router
 {
     private static $routes = [
-        '/blend/list' => ['BLEND_NAME', 'PAGE' => 'blend/list'],
-        '/blend/([a-z]+)/info' => ['BLEND_NAME', 'PAGE' => 'blend/info'],
-        '/blend/([a-z]+)/search' => ['BLEND_NAME', 'PAGE' => 'blend/index'],
-        '/blend/([a-z]+)/summaries' => ['BLEND_NAME', 'PAGE' => 'blend/summaries'],
-        '/blend/([a-z]+)/delete' => ['BLEND_NAME', 'PAGE' => 'blend/delete'],
-        '/blend/([a-z]+)/update' => ['BLEND_NAME', 'PAGE' => 'blend/update'],
-        '/blend/([a-z]+)/print' => ['BLEND_NAME', 'PAGE' => 'blend/print'],
-
-        '/([a-z]+)/info' => ['LINETYPE_NAME', 'PAGE' => 'line/info'],
-        '/([a-z]+)/suggested' => ['LINETYPE_NAME', 'PAGE' => 'line/suggested'],
-        '/([a-z]+)/([0-9]+)' => ['LINETYPE_NAME', 'LINE_ID', 'PAGE' => 'line/index'],
-        '/([a-z]+)/save' => ['LINETYPE_NAME', 'LINE_ID' => null, 'PAGE' => 'line/save'],
-        '/([a-z]+)/([0-9]+)/save' => ['LINETYPE_NAME', 'LINE_ID', 'PAGE' => 'line/save'],
-        '/([a-z]+)/([0-9]+)/delete' => ['LINETYPE_NAME', 'LINE_ID', 'PAGE' => 'line/delete'],
-        '/([a-z]+)/([0-9]+)/child/([a-z]+)' => ['LINETYPE_NAME', 'LINE_ID', 'CHILDSET', 'PAGE' => 'line/childset'],
-        '/([a-z]+)/([0-9]+)/print' => ['LINETYPE_NAME', 'LINE_ID', 'PAGE' => 'line/print'],
-        '/([a-z]+)/([0-9]+)/unlink/([a-z]+)/([0-9]+)' => ['LINETYPE_NAME', 'LINE_ID', 'PARENTTYPE_NAME', 'PARENT_ID', 'PAGE' => 'line/unlink'],
-        '/([a-z]+)/([0-9]+)/html' => ['LINETYPE_NAME', 'LINE_ID', 'PAGE' => 'line/html'],
-
-        '/tablelink/([a-z]+)/info' => ['TABLELINK_NAME', 'PAGE' => 'tablelink/info'],
-
-        '/file/(.*)' => ['FILE', 'PAGE' => 'file'],
+        'DELETE /([a-z]+)' => ['LINETYPE_NAME', 'PAGE' => 'line/delete'],
+        'DELETE /blend/([a-z]+)/delete' => ['BLEND_NAME', 'PAGE' => 'blend/delete'],
+        'GET /([a-z]+)/([0-9]+)' => ['LINETYPE_NAME', 'LINE_ID', 'PAGE' => 'line/index'],
+        'GET /([a-z]+)/([0-9]+)/html' => ['LINETYPE_NAME', 'LINE_ID', 'PAGE' => 'line/html'],
+        'GET /([a-z]+)/info' => ['LINETYPE_NAME', 'PAGE' => 'line/info'],
+        'GET /([a-z]+)/suggested' => ['LINETYPE_NAME', 'PAGE' => 'line/suggested'],
+        'GET /blend/([a-z]+)/info' => ['BLEND_NAME', 'PAGE' => 'blend/info'],
+        'GET /blend/([a-z]+)/print' => ['BLEND_NAME', 'PAGE' => 'blend/print'],
+        'GET /blend/([a-z]+)/search' => ['BLEND_NAME', 'PAGE' => 'blend/index'],
+        'GET /blend/([a-z]+)/summaries' => ['BLEND_NAME', 'PAGE' => 'blend/summaries'],
+        'GET /blend/([a-z]+)/update' => ['BLEND_NAME', 'PAGE' => 'blend/update'],
+        'GET /blend/list' => ['BLEND_NAME', 'PAGE' => 'blend/list'],
+        'GET /file/(.*)' => ['FILE', 'PAGE' => 'file'],
+        'GET /tablelink/([a-z]+)/info' => ['TABLELINK_NAME', 'PAGE' => 'tablelink/info'],
+        'POST /([a-z]+)' => ['LINETYPE_NAME', 'PAGE' => 'line/save'],
+        'POST /([a-z]+)/print' => ['LINETYPE_NAME', 'PAGE' => 'line/print'],
+        'POST /([a-z]+)/unlink' => ['LINETYPE_NAME', 'PAGE' => 'line/unlink'],
     ];
 
     public static function match($path)
     {
-        foreach (static::$routes as $url => $params) {
-            if (!preg_match("@^{$url}$@", $path, $groups)) {
+        foreach (static::$routes as $route => $params) {
+            if (!preg_match('/^(GET|POST|DELETE)\s+(.*)/', $route, $groups)) {
+                error_response("Invalid route: {$route}");
+            }
+
+            list(, $method, $pattern) = $groups;
+
+            if ($method != $_SERVER['REQUEST_METHOD']) {
+                continue;
+            }
+
+            if (!preg_match("@^{$pattern}$@", $path, $groups)) {
                 continue;
             }
 

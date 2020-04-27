@@ -1,5 +1,6 @@
 <?php
+$blend = Blend::load(BLEND_NAME);
 
 return [
-    'data' => Blend::search(BLEND_NAME, get_query_filters())
+    'data' => $blend->search(get_query_filters()),
 ];

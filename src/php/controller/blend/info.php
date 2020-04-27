@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'data' => Blend::info(BLEND_NAME),
+    'data' => Blend::load(BLEND_NAME),
 ];
