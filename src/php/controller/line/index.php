@@ -1,5 +1,5 @@
 <?php
-$linetype = Linetype::load(LINE_NAME);
+$linetype = Linetype::load(LINETYPE_NAME);
 $line = @$linetype->find_lines([(object)['field' => 'id', 'value' => LINE_ID]])[0];
 
 if (!$line) {
