@@ -30,8 +30,6 @@ fclose($pipes[1]);
 
 $return_value = proc_close($process);
 
-file_put_contents('/home/oran/Desktop/out.pdf', $filedata);
-
 return [
     'filedata' => $filedata,
     'filename' => LINE_ID . '.pdf',
