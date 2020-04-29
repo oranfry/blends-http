@@ -14,7 +14,6 @@ $cmd = "/usr/bin/xvfb-run -- /usr/bin/wkhtmltopdf -s A4 - -";
 $descriptorspec = [
    ['pipe', 'r'],
    ['pipe', 'w'],
-   ['file', '/home/oran/Desktop/error.log', 'a'],
 ];
 
 $process = proc_open($cmd, $descriptorspec, $pipes, '/tmp');
