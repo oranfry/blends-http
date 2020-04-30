@@ -9,26 +9,7 @@ if (!$line) {
 }
 
 $linetype->load_children($line);
-
-$cmd = "/usr/bin/xvfb-run -- /usr/bin/wkhtmltopdf -s A4 - -";
-$descriptorspec = [
-   ['pipe', 'r'],
-   ['pipe', 'w'],
-];
-
-$process = proc_open($cmd, $descriptorspec, $pipes, '/tmp');
-
-if (!is_resource($process)) {
-    error_response('Failed to create pdf (1)');
-}
-
-fwrite($pipes[0], $linetype->ashtml($line));
-fclose($pipes[0]);
-
-$filedata = stream_get_contents($pipes[1]);
-fclose($pipes[1]);
-
-$return_value = proc_close($process);
+$filedata = $linetype->aspdf($line);
 
 return [
     'filedata' => $filedata,
