@@ -1,7 +1,14 @@
 <?php
 $linetype = Linetype::load(LINETYPE_NAME);
-$lines = json_decode(file_get_contents('php://input'));
+
+@list($line) = $linetype->find_lines([(object)['field' => 'id', 'cmp' => '=', 'value' => LINE_ID]]);
+
+if (!$line) {
+    return [
+        'data' => (object) [],
+    ];
+}
 
 return [
-    'data' => $linetype->unlink($lines),
+    'data' => $linetype->unlink($line, PARNT),
 ];

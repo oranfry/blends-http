@@ -22,6 +22,6 @@ class Router extends \Router
         'GET /tablelink/([a-z]+)/info' => ['TABLELINK_NAME', 'PAGE' => 'tablelink/info'],
         'POST /([a-z]+)' => ['LINETYPE_NAME', 'PAGE' => 'line/save'],
         'POST /([a-z]+)/print' => ['LINETYPE_NAME', 'PAGE' => 'line/print'],
-        'POST /([a-z]+)/unlink' => ['LINETYPE_NAME', 'PAGE' => 'line/unlink'],
+        'POST /([a-z]+)/([0-9]+)/unlink/([a-z]+_[a-z]+)' => ['LINETYPE_NAME', 'LINE_ID', 'PARNT', 'PAGE' => 'line/unlink'],
     ];
 }
