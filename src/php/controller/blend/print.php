@@ -2,6 +2,6 @@
 $blend = Blend::load(BLEND_NAME);
 
 return [
-    'data' => $blend->print(get_query_filters()),
+    'data' => $blend->print(AUTH_TOKEN, get_query_filters()),
 ];
 

@@ -1,7 +1,7 @@
 <?php
 $linetype = Linetype::load(LINETYPE_NAME);
 
-@list($line) = $linetype->find_lines([(object)['field' => 'id', 'cmp' => '=', 'value' => LINE_ID]]);
+@list($line) = $linetype->find_lines(AUTH_TOKEN, [(object)['field' => 'id', 'cmp' => '=', 'value' => LINE_ID]]);
 
 if (!$line) {
     return [
@@ -10,5 +10,5 @@ if (!$line) {
 }
 
 return [
-    'data' => $linetype->unlink($line, PARNT),
+    'data' => $linetype->unlink(AUTH_TOKEN, $line, PARNT),
 ];

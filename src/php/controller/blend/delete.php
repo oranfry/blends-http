@@ -2,5 +2,5 @@
 $blend = Blend::load(BLEND_NAME);
 
 return [
-    'data' => $blend->delete(get_query_filters()),
+    'data' => $blend->delete(AUTH_TOKEN, get_query_filters()),
 ];

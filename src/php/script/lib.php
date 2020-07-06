@@ -1,5 +1,7 @@
 <?php
 
+define('AUTH_TOKEN', @getallheaders()['X-Auth']);
+
 function get_query_filters()
 {
     $filters = [];
