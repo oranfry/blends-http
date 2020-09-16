@@ -14,7 +14,7 @@ class Router extends \Router
         'GET /blend/([a-z]+)/info' => ['BLEND_NAME', 'PAGE' => 'blend/info'],
         'GET /blend/([a-z]+)/print' => ['BLEND_NAME', 'PAGE' => 'blend/print'],
         'GET /blend/([a-z]+)/search' => ['BLEND_NAME', 'PAGE' => 'blend/index'],
-        'GET /blend/([a-z]+)/summaries' => ['BLEND_NAME', 'PAGE' => 'blend/summaries'],
+        'GET /blend/([a-z]+)/summary' => ['BLEND_NAME', 'PAGE' => 'blend/summary'],
         'GET /blend/([a-z]+)/update' => ['BLEND_NAME', 'PAGE' => 'blend/update'],
         'GET /blend/list' => ['BLEND_NAME', 'PAGE' => 'blend/list'],
         'GET /download/(.*)' => ['FILE', 'PAGE' => 'download'],
