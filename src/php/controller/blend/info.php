@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'data' => Blend::load(BLEND_NAME),
+    'data' => Blend::load(AUTH_TOKEN, BLEND_NAME),
 ];

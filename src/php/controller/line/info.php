@@ -1,4 +1,4 @@
 <?php
 return [
-    'data' => Linetype::load(LINETYPE_NAME),
+    'data' => Linetype::load(AUTH_TOKEN, LINETYPE_NAME),
 ];

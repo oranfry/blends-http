@@ -1,5 +1,5 @@
 <?php
-$blend = Blend::load(BLEND_NAME);
+$blend = Blend::load(AUTH_TOKEN, BLEND_NAME);
 $data = json_decode(file_get_contents('php://input'));
 
 return [

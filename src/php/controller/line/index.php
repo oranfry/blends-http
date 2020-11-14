@@ -1,5 +1,5 @@
 <?php
-$linetype = Linetype::load(LINETYPE_NAME);
+$linetype = Linetype::load(AUTH_TOKEN, LINETYPE_NAME);
 $line = @$linetype->find_lines(AUTH_TOKEN, [(object)['field' => 'id', 'value' => LINE_ID]])[0];
 
 if (!$line) {
