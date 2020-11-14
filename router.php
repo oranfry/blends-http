@@ -1,0 +1,2 @@
+<?php
+return 'blendshttp\Router';
