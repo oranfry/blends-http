@@ -1,5 +1,11 @@
-/plugins
+/node_modules
 /config.php
 *.sublime-workspace
-/.php_cs.cache
+/build/latest.json
+/plugins
+/public/js
+/public/img/logo.png
+/public/img/icon
 /public/plugins
+/public/css
+/.php_cs.cache

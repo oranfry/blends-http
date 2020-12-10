@@ -1,2 +1,2 @@
-# blends-http
-Blends API over http
+# blends-frontend
+Generic Frontend to Blends API
