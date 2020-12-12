@@ -1,3 +1,4 @@
+<?php use contextvariableset\Daterange; ?>
 <!DOCTYPE html>
 <html lang="en-NZ">
     <head>
@@ -39,26 +40,24 @@
     ?>
 
     <?php if (AUTH_TOKEN): ?>
+        <?php $daterange = new Daterange('daterange'); ?>
+        <?php $username = Blends::token_username(AUTH_TOKEN); ?>
+        <?php $user = Blends::token_user(AUTH_TOKEN); ?>
+
         <script>
-            <?php $username = Blends::token_username(AUTH_TOKEN); ?>
-            <?= "window.username = '{$username}';"; ?>
+            <?= "window.token = '" . AUTH_TOKEN . "'" ?>;
+            <?= "window.repeater = " . ($repeater->period ? "'" . $repeater->render() . "'" : 'null') ?>;
+            <?= "window.range_from = " . ($daterange->from ? "'" . $daterange->from . "'" : 'null') ?>;
+            <?= "window.range_to = " . ($daterange->to ? "'" . $daterange->to . "'" : 'null') ?>;
+            <?= "window.username = '{$username}'"; ?>;
+            <?= 'window.user = ' . ($user ? "'{$user}'" : 'null'); ?>;
+            <?php foreach (PAGE_PARAMS as $key => $value): ?><?= "window.{$key} = '{$value}'"; ?>;<?php endforeach ?>
+            <?php if (BACK): ?><?= "var back = '" . BACK . "'"; ?>;<?php endif ?>
 
-            <?php $user = Blends::token_user(AUTH_TOKEN); ?>
-            <?= 'window.user = ' . ($user ? "'{$user}'" : 'null') . ";"; ?>
-
-            <?php foreach (PAGE_PARAMS as $key => $value): ?>
-                <?= "window.{$key} = '{$value}';"; ?>
-
-            <?php endforeach ?>
-
-            <?php if (BACK): ?>
-                <?= "var back = '" . BACK . "';"; ?>
-
-            <?php endif ?>
         </script>
     <?php endif ?>
 
-    <?php @include APP_HOME . '/src/php/partial/js/' . PAGE . '.php'; ?>
     <script type="text/javascript" src="/js/app.<?= latest('js') ?>.js"></script>
+    <?php @include APP_HOME . '/src/php/partial/js/' . PAGE . '.php'; ?>
 </body>
 </html>

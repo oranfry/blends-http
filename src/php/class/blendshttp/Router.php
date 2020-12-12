@@ -23,6 +23,7 @@ class Router extends \Router
 
         // save
         'POST /api/([a-z]+)' => ['LINETYPE_NAME', 'PAGE' => 'api/line/save', 'LAYOUT' => 'json', 'AUTHSCHEME' => 'header'],
+        'POST /api/([a-z]+)/add' => ['LINETYPE_NAME', 'PAGE' => 'api/line/add', 'LAYOUT' => 'json', 'AUTHSCHEME' => 'header'],
         'CLI save \S+ \S+ \S+' => ['PAGE' => 'cli/save', 'USERNAME', 'PASSWORD', 'LINETYPE'],
 
         // read
@@ -50,9 +51,6 @@ class Router extends \Router
         /***************************************
          *                BLEND                *
          ***************************************/
-
-        // create
-        'POST /ajax/([a-z]+)/([a-z]+)/add' => ['BLEND_NAME', 'LINETYPE_NAME', 'PAGE' => 'frontend/line/save', 'LINE_ID' => null, 'BULK_ADD' => true],
 
         // read
         'GET /blend/([a-z]+)' => ['BLEND_NAME', 'PAGE' => 'frontend/blend'],

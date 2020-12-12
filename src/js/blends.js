@@ -266,11 +266,14 @@
         });
 
         var handleSave = function() {
-            $.ajax('/ajax/' + blend + '/' + linetype + '/add?' + getFiltersQuery(), {
+            $.ajax('/api/' + linetype + '/add?repeater=' + repeater + '&from=' + range_from + '&to=' + range_to, {
                 method: 'post',
                 contentType: false,
                 processData: false,
                 data: JSON.stringify(data),
+                beforeSend: function(request) {
+                    request.setRequestHeader("X-Auth", token);
+                },
                 success: function(data) {
                     window.location.reload();
                 },
