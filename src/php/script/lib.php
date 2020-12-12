@@ -463,10 +463,11 @@ function get_query_filters()
         $r = preg_split('/(\*=|>=|<=|~|=|<|>)/', urldecode($v), -1, PREG_SPLIT_DELIM_CAPTURE);
 
         if (count($r) == 3) {
+            $values = explode(',', $r[2]);
             $filters[] = (object) [
                 'field' => $r[0],
                 'cmp' => $r[1],
-                'value' => $r[2],
+                'value' => count($values) > 1 ? $values : reset($values),
             ];
         }
     }
