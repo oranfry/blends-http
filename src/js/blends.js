@@ -808,7 +808,19 @@
             return;
         }
 
-        $('<form action="/logout" method="post" id="logout">').appendTo($('body')).submit();
+        $.ajax('/api/auth/logout', {
+            method: 'post',
+            contentType: false,
+            processData: false,
+            beforeSend: function(request) {
+                request.setRequestHeader("X-Auth", token);
+            },
+            success: function(data) {
+                window.location.href = '/';
+            },
+            error: function(data){
+                alert(data.responseJSON && data.responseJSON.error || 'Unknown error');
+            }
+        });
     });
-
 })();

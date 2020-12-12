@@ -14,8 +14,7 @@ class Router extends \Router
         'POST /api/auth/login' => ['PAGE' => 'api/login', 'AUTHSCHEME' => 'none', 'LAYOUT' => 'json'],
 
         // logout
-        'POST /(logout)' => ['PAGE' => 'frontend/logout', 'AUTHSCHEME' => 'none'],
-        'POST /api/auth/logout' => ['PAGE' => 'api/logout', 'AUTHSCHEME' => 'none', 'LAYOUT' => 'json'],
+        'POST /api/auth/logout' => ['PAGE' => 'api/logout', 'AUTHSCHEME' => 'header', 'LAYOUT' => 'json'],
 
         /***************************************
          *                LINE                 *
