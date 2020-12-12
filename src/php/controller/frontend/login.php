@@ -6,16 +6,8 @@ if (AUTH_TOKEN) {
     die();
 }
 
-if (@$_POST['password'] && @$_POST['username']) {
-    $token = Blends::login($_POST['username'], $_POST['password']);
-
-    if ($token) {
-        $_SESSION['AUTH'] = $token;
-    }
-}
-
-if (@$_SESSION['AUTH']) {
-    $blends = @BlendsConfig::get($_SESSION['AUTH'])->blends;
+if (@$_COOKIE['token'] && Blends::verify_token($_COOKIE['token'])) {
+    $blends = @BlendsConfig::get($_COOKIE['token'])->blends;
 
     if (!$blends || !count($blends)) {
         error_response('No blends set up');
@@ -27,13 +19,4 @@ if (@$_SESSION['AUTH']) {
     die('Redirecting...');
 }
 
-if (isset($_POST['password']) && isset($_POST['username'])) {
-    $message = "Incorrect username or password";
-}
-
-// define('LAYOUT', 'login');
-
-return [
-    'message' => $message,
-    'username' => @$_POST['username'],
-];
+return [];

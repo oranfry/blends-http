@@ -14,8 +14,6 @@ define('REFCOL', 'd8b0b0');
 define('MAX_COLUMN_WIDTH', 25);
 define('BACK', @$_GET['back'] ? base64_decode($_GET['back']) : null);
 
-session_start();
-
 function postroute_app()
 {
     switch (AUTHSCHEME) {
@@ -24,7 +22,7 @@ function postroute_app()
 
             break;
         case 'cookie':
-            define('AUTH_TOKEN', @$_SESSION['AUTH']);
+            define('AUTH_TOKEN', @$_COOKIE['token']);
 
             break;
         case 'none':

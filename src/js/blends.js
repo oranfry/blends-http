@@ -6,6 +6,37 @@
         return Math.floor(Math.random() * 16777215).toString(16);
     };
 
+    window.getCookie = function(cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+
+        for(var i = 0; i <ca.length; i++) {
+            var c = ca[i];
+
+            while (c.charAt(0)==' ') {
+                c = c.substring(1);
+            }
+
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length,c.length);
+            }
+        }
+
+        return "";
+    }
+
+    window.setCookie = function(cname, cvalue, exdays) {
+        exdays > 0 && setCookie(cname, '', -1);
+        var d = new Date();
+        d.setTime(d.getTime() + (exdays*24*60*60*1000));
+        var expires = "expires="+ d.toUTCString();
+        document.cookie = cname + "=" + cvalue + "; path=/; " + expires;
+    };
+
+    window.deleteCookie = function(cname) {
+        setCookie(cname, '', -1)
+    }
+
     window.closeModals = function() {
         $('.modal--open, .inline-modal--open, .nav-modal--open').removeClass('modal--open inline-modal--open nav-modal--open');
         $('.modal-breakout').remove();
@@ -834,11 +865,40 @@
                 request.setRequestHeader("X-Auth", token);
             },
             success: function(data) {
+                deleteCookie('token');
                 window.location.href = '/';
             },
             error: function(data){
                 alert(data.responseJSON && data.responseJSON.error || 'Unknown error');
             }
         });
+    });
+
+    $('#loginform').on('submit', function(e){
+        e.preventDefault();
+
+        $.ajax('/api/auth/login', {
+            method: 'post',
+            contentType: false,
+            processData: false,
+            data: JSON.stringify({username: $(this).find('[name="username"]').val(), password:$(this).find('[name="password"]').val()}),
+            success: function(data) {
+                if (typeof data.token != 'undefined') {
+                    setCookie('token', data.token);
+                    window.location.reload();
+                } else {
+                    alert(data.error || 'Unknown error');
+                }
+            },
+            error: function(data){
+                alert(data.responseJSON && data.responseJSON.error || 'Unknown error');
+            }
+        });
+    });
+
+    $('#tokenform').on('submit', function(e){
+        e.preventDefault();
+        setCookie('token', $(this).find('[name="token"]').val());
+        window.location.reload();
     });
 })();

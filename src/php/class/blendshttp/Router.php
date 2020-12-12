@@ -78,7 +78,6 @@ class Router extends \Router
 
         // login
         'GET /' => ['PAGE' => 'frontend/login', 'AUTHSCHEME' => 'none'],
-        'POST /' => ['PAGE' => 'frontend/login', 'AUTHSCHEME' => 'none'],
 
         // line
         'GET /([a-z]+)' => ['LINETYPE_NAME', 'LINE_ID' =>  null, 'PAGE' => 'frontend/line'],
@@ -88,7 +87,6 @@ class Router extends \Router
         'GET /blend/([a-z]+)' => ['BLEND_NAME', 'PAGE' => 'frontend/blend'],
 
         // special
-        'POST /change-token' => ['PAGE' => 'frontend/change-token', 'AUTHSCHEME' => 'none'],
         'POST /switch-user' => ['PAGE' => 'frontend/switch-user'],
 
         /***************************************
