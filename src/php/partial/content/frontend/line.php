@@ -3,6 +3,15 @@
 <div class="samewidth">
     <div class="line">
         <form method="post" class="edit-form" <?= $hasFileFields ? 'enctype="multipart/form-data"' : '' ?>>
+            <div class="form-row">
+                <div class="form-row__label">id</div>
+                <div class="form-row__value">
+                    <?php $field = (object) ['name' => 'id'] ?>
+                    <?php $value = @$line->id; ?>
+                    <?php require APP_HOME . "/src/php/partial/fieldtype/text.php"; ?>
+                </div>
+                <div style="clear: both"></div>
+            </div>
             <?php if (defined('ROOT_USERNAME') && Blends::token_username(AUTH_TOKEN) == ROOT_USERNAME): ?>
                 <div class="form-row">
                     <div class="form-row__label">user</div>

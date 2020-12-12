@@ -524,13 +524,7 @@
         var formData = new FormData($form[0]);
         var buttonClicked = $(this).val();
 
-        var url = '/' + LINETYPE_NAME;
-
-        if (LINE_ID) {
-            url += '/' + LINE_ID;
-        }
-
-        url += '/save';
+        var url = '/api/' + LINETYPE_NAME;
 
         var data = Object.fromEntries(formData);
 
@@ -538,8 +532,11 @@
             $.ajax(url, {
                 method: 'post',
                 contentType: false,
+                beforeSend: function(request) {
+                    request.setRequestHeader("X-Auth", token);
+                },
                 processData: false,
-                data: JSON.stringify(data),
+                data: JSON.stringify([data]),
                 success: function(data) {
                     window.location.href = back;
                 },
