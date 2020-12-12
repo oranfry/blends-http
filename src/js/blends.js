@@ -491,26 +491,48 @@
         });
     });
 
-    $('.trigger-delete-line, .trigger-unlink-line').on('click', function(){
-        var action = $(this).hasClass('trigger-delete-line') && 'delete' || 'unlink';
+    $('.trigger-delete-line').on('click', function(){
+        var $row = $(this).closest('tr');
+        var id = $row.data('id');
+        var type = $row.data('type');
+
+        if (!confirm('delete ' + type + ' ' + id + '?')) {
+            return;
+        }
+
+        $.ajax('/api/' + type + '?id=' + id, {
+            method: 'delete',
+            contentType: false,
+            processData: false,
+            beforeSend: function(request) {
+                request.setRequestHeader("X-Auth", token);
+            },
+            success: function() {
+                window.location.reload();
+            },
+            error: function(data){
+                alert(data.responseJSON.error);
+            }
+        });
+    });
+
+    $('.trigger-unlink-line').on('click', function(){
         var $row = $(this).closest('tr');
         var id = $row.data('id');
         var type = $row.data('type');
         var parent = $row.data('parent');
 
-        if (!confirm(action + ' ' + type + ' ' + id + '?')) {
+        if (!confirm('unlink ' + type + ' ' + id + '?')) {
             return;
         }
 
-        var parentspec = '';
-
-        if (action == 'unlink') {
-            parentspec = '/' + parent;
-        }
-
-        $.ajax('/ajax/' + type + '/' + id + '/' + action + parentspec, {
+        $.ajax('/api/' + type + '/' + id + '/unlink/' + parent, {
             method: 'post',
-            data: {},
+            contentType: false,
+            processData: false,
+            beforeSend: function(request) {
+                request.setRequestHeader("X-Auth", token);
+            },
             success: function() {
                 window.location.reload();
             },
