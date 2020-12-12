@@ -597,13 +597,10 @@
         var $form = $(this).closest('form');
         var formData = new FormData($form[0]);
         var buttonClicked = $(this).val();
-
-        var url = '/api/' + LINETYPE_NAME;
-
         var data = Object.fromEntries(formData);
 
         var handleSave = function() {
-            $.ajax(url, {
+            $.ajax('/api/' + LINETYPE_NAME, {
                 method: 'post',
                 contentType: false,
                 beforeSend: function(request) {

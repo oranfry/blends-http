@@ -54,7 +54,7 @@
             <?php foreach (PAGE_PARAMS as $key => $value): ?>
                 window.<?= "{$key} = '{$value}'"; ?>;
             <?php endforeach ?>
-            <?php if (@BLEND_NAME): ?>
+            <?php if (defined('BLEND_NAME')): ?>
                 window.current_filter = '<?= implode('&', array_map(function($f){
                     return $f->field . $f->cmp . (is_array($f->value) ? implode(',' ,$f->value) : $f->value);
                 }, get_current_filters(Blend::load(AUTH_TOKEN, BLEND_NAME)->fields))); ?>';
