@@ -9,12 +9,13 @@ class Router extends \Router
          ***************************************/
 
         // login
-        'GET /' => ['PAGE' => 'frontend/login', 'AUTHSCHEME' => 'none'],
-        'POST /' => ['PAGE' => 'frontend/login', 'AUTHSCHEME' => 'none'],
         'POST /api/auth/login' => ['PAGE' => 'api/login', 'AUTHSCHEME' => 'none', 'LAYOUT' => 'json'],
 
         // logout
         'POST /api/auth/logout' => ['PAGE' => 'api/logout', 'AUTHSCHEME' => 'header', 'LAYOUT' => 'json'],
+
+        // touch token
+        'GET /api/touch' => ['PAGE' => 'api/touch', 'LAYOUT' => 'json', 'AUTHSCHEME' => 'header'],
 
         /***************************************
          *                LINE                 *
@@ -26,7 +27,6 @@ class Router extends \Router
         'CLI save \S+ \S+ \S+' => ['PAGE' => 'cli/save', 'USERNAME', 'PASSWORD', 'LINETYPE'],
 
         // read
-        'GET /([a-z]+)/([A-Z0-9]+)' => ['LINETYPE_NAME', 'LINE_ID', 'PAGE' => 'frontend/line'],
         'GET /api/([a-z]+)/([A-Z0-9]+)' => ['LINETYPE_NAME', 'LINE_ID', 'PAGE' => 'api/line/index', 'LAYOUT' => 'json', 'AUTHSCHEME' => 'header'],
         'GET /api/([a-z]+)/([A-Z0-9]+)/html' => ['LINETYPE_NAME', 'LINE_ID', 'PAGE' => 'api/line/html', 'AUTHSCHEME' => 'header'],
         'GET /api/([a-z]+)/([A-Z0-9]+)/pdf' => ['LINETYPE_NAME', 'LINE_ID', 'PAGE' => 'api/line/pdf', 'AUTHSCHEME' => 'header'],
@@ -42,7 +42,6 @@ class Router extends \Router
         'GET /api/([a-z]+)/suggested' => ['LINETYPE_NAME', 'PAGE' => 'api/line/suggested', 'LAYOUT' => 'json', 'AUTHSCHEME' => 'header'],
 
         // print
-        'POST /([a-z]+)/([A-Z0-9]+)/print' => ['LINETYPE_NAME', 'LINE_ID', 'PAGE' => 'frontend/line/print'],
         'POST /api/([a-z]+)/print' => ['LINETYPE_NAME', 'PAGE' => 'api/line/print', 'LAYOUT' => 'json', 'AUTHSCHEME' => 'header'],
 
         /***************************************
@@ -50,25 +49,21 @@ class Router extends \Router
          ***************************************/
 
         // read
-        'GET /blend/([a-z]+)' => ['BLEND_NAME', 'PAGE' => 'frontend/blend'],
         'GET /api/blend/([a-z]+)/search' => ['BLEND_NAME', 'PAGE' => 'api/blend/index', 'LAYOUT' => 'json', 'AUTHSCHEME' => 'header'],
-        'GET /api/blend/list' => ['PAGE' => 'api/blend/list', 'LAYOUT' => 'json', 'AUTHSCHEME' => 'header'],
         'GET /api/blend/([a-z]+)/summary' => ['BLEND_NAME', 'PAGE' => 'api/blend/summary', 'LAYOUT' => 'json', 'AUTHSCHEME' => 'header'],
 
         // update
-        'POST /ajax/blend/([a-z]+)/update' => ['BLEND_NAME', 'PAGE' => 'frontend/blend/update'],
-        'GET /api/blend/([a-z]+)/update' => ['BLEND_NAME', 'PAGE' => 'api/blend/update', 'LAYOUT' => 'json', 'AUTHSCHEME' => 'header'],
+        'POST /api/blend/([a-z]+)/update' => ['BLEND_NAME', 'PAGE' => 'api/blend/update', 'LAYOUT' => 'json', 'AUTHSCHEME' => 'header'],
 
         // delete
-        'POST /ajax/blend/([a-z]+)/delete' => ['BLEND_NAME', 'PAGE' => 'frontend/blend/delete'],
         'DELETE /api/blend/([a-z]+)/delete' => ['BLEND_NAME', 'PAGE' => 'api/blend/delete', 'LAYOUT' => 'json', 'AUTHSCHEME' => 'header'],
 
         // meta
         'GET /api/blend/([a-z]+)/info' => ['BLEND_NAME', 'PAGE' => 'api/blend/info', 'LAYOUT' => 'json', 'AUTHSCHEME' => 'header'],
+        'GET /api/blend/list' => ['PAGE' => 'api/blend/list', 'LAYOUT' => 'json', 'AUTHSCHEME' => 'header'],
 
         // print
-        'POST /ajax/blend/([a-z]+)/print' => ['BLEND_NAME', 'PAGE' => 'frontend/blend/print'],
-        'GET /api/blend/([a-z]+)/print' => ['BLEND_NAME', 'PAGE' => 'api/blend/print', 'LAYOUT' => 'json', 'AUTHSCHEME' => 'header'],
+        'POST /api/blend/([a-z]+)/print' => ['BLEND_NAME', 'PAGE' => 'api/blend/print', 'LAYOUT' => 'json', 'AUTHSCHEME' => 'header'],
 
         /***************************************
          *               FILES                 *
@@ -76,21 +71,25 @@ class Router extends \Router
 
         'GET /api/download/(.*)' => ['FILE', 'PAGE' => 'api/download'],
         'GET /api/file/(.*)' => ['FILE', 'PAGE' => 'api/file', 'LAYOUT' => 'json', 'AUTHSCHEME' => 'header'],
-        'GET /download/(.*)' => ['FILE', 'PAGE' => 'frontend/download'],
 
         /***************************************
          *              FRONTEND               *
          ***************************************/
 
+        // login
+        'GET /' => ['PAGE' => 'frontend/login', 'AUTHSCHEME' => 'none'],
+        'POST /' => ['PAGE' => 'frontend/login', 'AUTHSCHEME' => 'none'],
+
+        // line
         'GET /([a-z]+)' => ['LINETYPE_NAME', 'LINE_ID' =>  null, 'PAGE' => 'frontend/line'],
+        'GET /([a-z]+)/([A-Z0-9]+)' => ['LINETYPE_NAME', 'LINE_ID', 'PAGE' => 'frontend/line'],
+
+        // blend
+        'GET /blend/([a-z]+)' => ['BLEND_NAME', 'PAGE' => 'frontend/blend'],
+
+        // special
         'POST /change-token' => ['PAGE' => 'frontend/change-token', 'AUTHSCHEME' => 'none'],
         'POST /switch-user' => ['PAGE' => 'frontend/switch-user'],
-
-        /***************************************
-         *              API ONLY               *
-         ***************************************/
-
-        'GET /api/touch' => ['PAGE' => 'api/touch', 'LAYOUT' => 'json', 'AUTHSCHEME' => 'header'],
 
         /***************************************
          *              CLI ONLY               *

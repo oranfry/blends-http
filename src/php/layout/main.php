@@ -45,15 +45,21 @@
         <?php $user = Blends::token_user(AUTH_TOKEN); ?>
 
         <script>
-            <?= "window.token = '" . AUTH_TOKEN . "'" ?>;
-            <?= "window.repeater = " . ($repeater->period ? "'" . $repeater->render() . "'" : 'null') ?>;
-            <?= "window.range_from = " . ($daterange->from ? "'" . $daterange->from . "'" : 'null') ?>;
-            <?= "window.range_to = " . ($daterange->to ? "'" . $daterange->to . "'" : 'null') ?>;
-            <?= "window.username = '{$username}'"; ?>;
-            <?= 'window.user = ' . ($user ? "'{$user}'" : 'null'); ?>;
-            <?php foreach (PAGE_PARAMS as $key => $value): ?><?= "window.{$key} = '{$value}'"; ?>;<?php endforeach ?>
+            window.token = '<?= AUTH_TOKEN ?>';
+            window.repeater = <?= $repeater->period ? "'" . $repeater->render() . "'" : 'null' ?>;
+            window.range_from = <?= $daterange->from ? "'" . $daterange->from . "'" : 'null' ?>;
+            window.range_to = <?= $daterange->to ? "'" . $daterange->to . "'" : 'null' ?>;
+            window.username = '<?= $username; ?>';
+            window.user = <?= $user ? "'{$user}'" : 'null'; ?>;
+            <?php foreach (PAGE_PARAMS as $key => $value): ?>
+                window.<?= "{$key} = '{$value}'"; ?>;
+            <?php endforeach ?>
+            <?php if (@BLEND_NAME): ?>
+                window.current_filter = '<?= implode('&', array_map(function($f){
+                    return $f->field . $f->cmp . (is_array($f->value) ? implode(',' ,$f->value) : $f->value);
+                }, get_current_filters(Blend::load(AUTH_TOKEN, BLEND_NAME)->fields))); ?>';
+            <?php endif ?>
             <?php if (BACK): ?><?= "var back = '" . BACK . "'"; ?>;<?php endif ?>
-
         </script>
     <?php endif ?>
 

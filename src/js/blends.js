@@ -199,15 +199,18 @@
         if ($selected.length) {
             query = getSelectionQuery($selected);
         } else {
-            query = getFiltersQuery();
+            query = current_filter;
         }
 
         var handleSave = function() {
-            $.ajax('/ajax/blend/' + BLEND_NAME + '/update?' + query, {
+            $.ajax('/api/blend/' + BLEND_NAME + '/update?' + query, {
                 method: 'post',
                 contentType: false,
                 processData: false,
                 data: JSON.stringify(data),
+                beforeSend: function(request) {
+                    request.setRequestHeader("X-Auth", token);
+                },
                 success: function(data) {
                     window.location.reload();
                 },
@@ -343,12 +346,16 @@
         if ($selected.length) {
             query = getSelectionQuery($selected);
         } else {
-            query = getFiltersQuery();
+            query = current_filter;
         }
 
-        $.ajax('/ajax/blend/' + BLEND_NAME + '/delete?' + query, {
+        $.ajax('/api/blend/' + BLEND_NAME + '/delete?' + query, {
             method: 'post',
-            data: {},
+            contentType: false,
+            processData: false,
+            beforeSend: function(request) {
+                request.setRequestHeader("X-Auth", token);
+            },
             success: function(data) {
                 window.location.reload();
             },
@@ -371,12 +378,16 @@
         if ($selected.length) {
             query = getSelectionQuery($selected);
         } else {
-            query = getFiltersQuery();
+            query = current_filter;
         }
 
-        $.ajax('/ajax/blend/' + BLEND_NAME + '/print?' + query, {
+        $.ajax('/api/blend/' + BLEND_NAME + '/print?' + query, {
             method: 'post',
-            data: {},
+            contentType: false,
+            processData: false,
+            beforeSend: function(request) {
+                request.setRequestHeader("X-Auth", token);
+            },
             error: function(data){
                 alert(data.responseJSON.error);
             }
@@ -485,9 +496,16 @@
     });
 
     $('.print-line').on('click', function(){
-        $.ajax('/' + LINETYPE_NAME + '/' + LINE_ID + '/print', {
+        $.ajax('/api/' + LINETYPE_NAME + '/print?id=' + LINE_ID, {
             method: 'post',
-            success: function(data) { $('#output').html(data.messages.join(', ')); }
+            contentType: false,
+            processData: false,
+            beforeSend: function(request) {
+                request.setRequestHeader("X-Auth", token);
+            },
+            success: function(data) {
+                $('#output').html(data.messages.join(', '));
+            }
         });
     });
 
@@ -782,7 +800,7 @@
             return $(this).data('type') + ':' + $(this).data('id');
         }).get();
 
-        return 'selection=' + deepids.join(',');
+        return 'deepid=' + deepids.join(',');
     }
 
     function getSelected()

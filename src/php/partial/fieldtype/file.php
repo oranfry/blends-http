@@ -2,7 +2,7 @@
     <?php if ($value || @$bulk): ?>
         <span class="file-field-controls__actions">
             <?php if (!@$bulk): ?>
-                <div style="margin-bottom: 0.5em"><a href="/download/<?= $value ?>" download><i class="icon icon--big icon--mono icon--<?= @$field->translate[$field->icon] ?? $field->icon ?>"></i></a></div>
+                <div style="margin-bottom: 0.5em"><a href="/api/download/<?= $value ?>" download><i class="icon icon--big icon--mono icon--<?= @$field->translate[$field->icon] ?? $field->icon ?>"></i></a></div>
             <?php endif ?>
             <span class="button file-field-controls__change"><?= @$bulk ? 'choose' : 'change' ?></span>
             <span class="button file-field-controls__delete">delete</span>
