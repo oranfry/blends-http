@@ -349,8 +349,8 @@
             query = current_filter;
         }
 
-        $.ajax('/api/blend/' + BLEND_NAME + '/delete?' + query, {
-            method: 'post',
+        $.ajax('/api/blend/' + BLEND_NAME + '?' + query, {
+            method: 'delete',
             contentType: false,
             processData: false,
             beforeSend: function(request) {
