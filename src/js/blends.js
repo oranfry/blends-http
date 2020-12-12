@@ -240,7 +240,7 @@
                 processData: false,
                 data: JSON.stringify(data),
                 beforeSend: function(request) {
-                    request.setRequestHeader("X-Auth", token);
+                    request.setRequestHeader("X-Auth", getCookie('token'));
                 },
                 success: function(data) {
                     window.location.reload();
@@ -306,7 +306,7 @@
                 processData: false,
                 data: JSON.stringify(data),
                 beforeSend: function(request) {
-                    request.setRequestHeader("X-Auth", token);
+                    request.setRequestHeader("X-Auth", getCookie('token'));
                 },
                 success: function(data) {
                     window.location.reload();
@@ -385,7 +385,7 @@
             contentType: false,
             processData: false,
             beforeSend: function(request) {
-                request.setRequestHeader("X-Auth", token);
+                request.setRequestHeader("X-Auth", getCookie('token'));
             },
             success: function(data) {
                 window.location.reload();
@@ -417,7 +417,7 @@
             contentType: false,
             processData: false,
             beforeSend: function(request) {
-                request.setRequestHeader("X-Auth", token);
+                request.setRequestHeader("X-Auth", getCookie('token'));
             },
             error: function(data){
                 alert(data.responseJSON.error);
@@ -532,7 +532,7 @@
             contentType: false,
             processData: false,
             beforeSend: function(request) {
-                request.setRequestHeader("X-Auth", token);
+                request.setRequestHeader("X-Auth", getCookie('token'));
             },
             success: function(data) {
                 $('#output').html(data.messages.join(', '));
@@ -554,7 +554,7 @@
             contentType: false,
             processData: false,
             beforeSend: function(request) {
-                request.setRequestHeader("X-Auth", token);
+                request.setRequestHeader("X-Auth", getCookie('token'));
             },
             success: function() {
                 window.location.reload();
@@ -580,7 +580,7 @@
             contentType: false,
             processData: false,
             beforeSend: function(request) {
-                request.setRequestHeader("X-Auth", token);
+                request.setRequestHeader("X-Auth", getCookie('token'));
             },
             success: function() {
                 window.location.reload();
@@ -607,7 +607,7 @@
                 method: 'post',
                 contentType: false,
                 beforeSend: function(request) {
-                    request.setRequestHeader("X-Auth", token);
+                    request.setRequestHeader("X-Auth", getCookie('token'));
                 },
                 processData: false,
                 data: JSON.stringify([data]),
@@ -862,7 +862,7 @@
             contentType: false,
             processData: false,
             beforeSend: function(request) {
-                request.setRequestHeader("X-Auth", token);
+                request.setRequestHeader("X-Auth", getCookie('token'));
             },
             success: function(data) {
                 deleteCookie('token');

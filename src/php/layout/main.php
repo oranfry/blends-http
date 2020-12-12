@@ -45,7 +45,7 @@
         <?php $user = Blends::token_user(AUTH_TOKEN); ?>
 
         <script>
-            window.token = '<?= AUTH_TOKEN ?>';
+            window.orig_token = '<?= AUTH_TOKEN ?>';
             window.repeater = <?= $repeater->period ? "'" . $repeater->render() . "'" : 'null' ?>;
             window.range_from = <?= $daterange->from ? "'" . $daterange->from . "'" : 'null' ?>;
             window.range_to = <?= $daterange->to ? "'" . $daterange->to . "'" : 'null' ?>;
