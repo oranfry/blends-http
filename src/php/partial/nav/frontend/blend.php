@@ -8,19 +8,19 @@ $adhocfilters = ContextVariableSet::get('adhocfilters');
 
 <div class="navset">
     <div class="only-super1200 nav-title">Bulk</div>
-    <i class="icon icon--edit modal-trigger" data-for="bulk-edit-modal"></i>
-    <i class="icon icon--times trigger-bulk-delete-lines" data-blend="<?= BLEND_NAME ?>"></i>
-    <?php if ($repeater->period && count($types) == 1): ?><i class="icon icon--mono icon--plus modal-trigger" data-for="bulk-add-modal_<?= $types[0] ?>"></i><?php endif ?>
-    <?php if (@$blend->printable): ?><i class="icon icon--printer trigger-bulk-print-lines" data-blend="<?= BLEND_NAME ?>"></i><?php endif ?>
+    <i class="icon icon--gray icon--edit modal-trigger" data-for="bulk-edit-modal"></i>
+    <i class="icon icon--gray icon--times trigger-bulk-delete-lines" data-blend="<?= BLEND_NAME ?>"></i>
+    <?php if ($repeater->period && count($types) == 1): ?><i class="icon icon--gray icon--plus modal-trigger" data-for="bulk-add-modal_<?= $types[0] ?>"></i><?php endif ?>
+    <?php if (@$blend->printable): ?><i class="icon icon--gray icon--printer trigger-bulk-print-lines" data-blend="<?= BLEND_NAME ?>"></i><?php endif ?>
 </div>
 <?php if ($repeater->period && count($types) > 1): ?>
     <div class="navset">
         <div class="only-super1200 nav-title">Bulk Add</div>
         <div class="inline-rel">
             <div class="nav-modal">
-                <div class="nav-dropdown"><?php foreach ($types as $_type): ?><a href="#"><i class="icon icon--<?= Linetype::load(AUTH_TOKEN, $_type)->icon ?> modal-trigger" data-for="bulk-add-modal_<?= $_type ?>"></i></a><?php endforeach ?></div>
+                <div class="nav-dropdown"><?php foreach ($types as $_type): ?><a href="#"><i class="icon icon--gray icon--<?= Linetype::load(AUTH_TOKEN, $_type)->icon ?> modal-trigger" data-for="bulk-add-modal_<?= $_type ?>"></i></a><?php endforeach ?></div>
             </div>
-            <i class="nav-modal-trigger icon icon--mono icon--plus only-sub1200"></i>
+            <i class="nav-modal-trigger icon icon--gray icon--plus only-sub1200"></i>
         </div>
     </div>
 <?php endif ?>
@@ -49,7 +49,7 @@ $adhocfilters = ContextVariableSet::get('adhocfilters');
                 <div class="only-sub1200"><?php require APP_HOME . '/src/php/partial/adhocfilterlist.php'; ?></div>
             </div>
         </div>
-        <div class="inline-modal-trigger drnav <?= $adhocfilters->value ? 'current' : '' ?>"><i class="icon icon--funnel"></i></div>
+        <div class="inline-modal-trigger drnav <?= $adhocfilters->value ? 'current' : '' ?>"><i class="icon icon--gray icon--funnel"></i></div>
     </div>
 
     <div class="inline-rel">
@@ -143,7 +143,7 @@ $adhocfilters = ContextVariableSet::get('adhocfilters');
             </div>
         </div>
         <?php if (@$datefield): ?>
-            <div class="inline-modal-trigger drnav <?= $repeater->period ? 'current' : '' ?>"><i class="icon icon--repeat"></i></div>
+            <div class="inline-modal-trigger drnav <?= $repeater->period ? 'current' : '' ?>"><i class="icon icon--gray icon--repeat"></i></div>
         <?php endif ?>
     </div>
     <div class="only-super1200"><?php require APP_HOME . '/src/php/partial/adhocfilterlist.php'; ?></div>

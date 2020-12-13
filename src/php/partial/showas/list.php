@@ -16,12 +16,12 @@ $seen_today = !@$currentgroup || !$daterange || strcmp($currentgroup, $from) < 0
 <table class="easy-table">
     <thead>
         <tr>
-            <th class="when-selecting printhide"><i class="icon icon--smallsquare-o selectall"></i></td></th>
+            <th class="when-selecting printhide"><i class="icon icon--gray icon--smallsquare-o selectall"></i></td></th>
             <?php foreach ($fields as $field): ?>
                 <th class="<?= $field->type == 'number' ? 'right' : '' ?> <?= @$field->sacrifice ? 'sacrifice' : '' ?>"><?= !@$field->supress_header && @$field->type != 'icon' ? $field->name : '' ?></th>
             <?php endforeach ?>
             <?php if (!@$hideadd): ?>
-                <th><i class="icon icon--smalldot toggle-selecting" style="float: right"></i></th>
+                <th><i class="icon icon--gray icon--smalldot toggle-selecting" style="float: right"></i></th>
             <?php endif ?>
         </tr>
     </thead>
@@ -77,7 +77,7 @@ $seen_today = !@$currentgroup || !$daterange || strcmp($currentgroup, $from) < 0
                     <?php endif ?>
 
                     <tr class="<?= strcmp($record->{$groupfield}, @$currentgroup) ? '' : 'today' ?>">
-                        <td class="when-selecting printhide"><i class="icon icon--smallsquare-o selectall"></i></td>
+                        <td class="when-selecting printhide"><i class="icon icon--gray icon--smallsquare-o selectall"></i></td>
                         <?php
                             $grouptitle = $record->{$groupfield};
                             if ($daterange) {
@@ -93,13 +93,13 @@ $seen_today = !@$currentgroup || !$daterange || strcmp($currentgroup, $from) < 0
                                     <div class="inline-modal inline-modal--right">
                                         <nav>
                                             <?php foreach ($types as $_type): ?>
-                                                <a href="<?= addlink($_type, @$record->{$groupfield}, @$groupfield, @$defaultgroup, @$parent_query, $prepop) ?>"><i class="icon icon--mono icon--<?= Linetype::load(AUTH_TOKEN, $_type)->icon ?>"></i></a>
+                                                <a href="<?= addlink($_type, @$record->{$groupfield}, @$groupfield, @$defaultgroup, @$parent_query, $prepop) ?>"><i class="icon icon--gray icon--<?= Linetype::load(AUTH_TOKEN, $_type)->icon ?>"></i></a>
                                             <?php endforeach ?>
                                         </nav>
                                     </div>
-                                    <a class="inline-modal-trigger"><i class="icon icon--mono icon--plus"></i></a>
+                                    <a class="inline-modal-trigger"><i class="icon icon--gray icon--plus"></i></a>
                                 <?php else: ?>
-                                    <a href="<?= addlink($types[0], @$record->{$groupfield}, @$groupfield, @$defaultgroup, @$parent_query, @$prepop) ?>"><i class="icon icon--mono icon--plus"></i></a>
+                                    <a href="<?= addlink($types[0], @$record->{$groupfield}, @$groupfield, @$defaultgroup, @$parent_query, @$prepop) ?>"><i class="icon icon--gray icon--plus"></i></a>
                                 <?php endif ?>
                             <?php endif ?>
                         </td>
@@ -124,11 +124,11 @@ $seen_today = !@$currentgroup || !$daterange || strcmp($currentgroup, $from) < 0
                             }
 
                             if ($field->type == 'icon') {
-                                ?><i class="icon icon--mono icon--<?= @$field->translate->{$value} ?? $value ?>"></i><?php
+                                ?><i class="icon icon--gray icon--<?= @$field->translate->{$value} ?? $value ?>"></i><?php
                             } elseif ($field->type == 'color') {
                                 ?><span style="display: inline-block; height: 1em; width: 1em; background-color: #<?= $value ?>;">&nbsp;</span><?php
                             } elseif ($field->type == 'file' && @$record->{"{$field->name}_path"}) {
-                               ?><a href="/api/download/<?= $record->{"{$field->name}_path"} ?>" download><i class="icon icon--mono icon--<?= @$field->translate[$field->icon] ?? $field->icon ?>"></i></a><?php
+                               ?><a href="/api/download/<?= $record->{"{$field->name}_path"} ?>" download><i class="icon icon--gray icon--<?= @$field->translate[$field->icon] ?? $field->icon ?>"></i></a><?php
                             } else {
                                 echo is_callable(@$field->prefix) ? ($field->prefix)($record) : @$field->prefix;
                                 echo $field->type == 'fake' ? $field->value : (strlen($value) > MAX_COLUMN_WIDTH ? substr($value, 0, MAX_COLUMN_WIDTH - 1) . "&hellip;" : $value);
@@ -141,11 +141,11 @@ $seen_today = !@$currentgroup || !$daterange || strcmp($currentgroup, $from) < 0
                         ?></td>
                     <?php endforeach ?>
                     <td class="printhide" style="text-align: right; vertical-align: middle">
-                        <a href="<?= editlink($record->id, $record->type) ?>"><i class="icon icon--edit"></i></a>
+                        <a href="<?= editlink($record->id, $record->type) ?>"><i class="icon icon--gray icon--edit"></i></a>
                         <?php if (@$parent): ?>
-                            <i class="trigger-unlink-line icon icon--unlink"></i>
+                            <i class="trigger-unlink-line icon icon--gray icon--unlink"></i>
                         <?php endif ?>
-                        <i class="trigger-delete-line icon icon--times"></i>
+                        <i class="trigger-delete-line icon icon--gray icon--times"></i>
                     </td>
                 </tr>
             <?php endif ?>
@@ -162,6 +162,6 @@ $seen_today = !@$currentgroup || !$daterange || strcmp($currentgroup, $from) < 0
 
 <nav>
     <?php foreach ($types as $_type): ?>
-       <a href="<?= addlink($_type, @$defaultgroup, @$groupfield, @$defaultgroup, @$parent_query, @$prepop) ?>"><i class="icon icon--mono icon--plus"></i> <i class="icon icon--mono icon--<?= Linetype::load(AUTH_TOKEN, $_type)->icon ?>"></i></a>
+       <a href="<?= addlink($_type, @$defaultgroup, @$groupfield, @$defaultgroup, @$parent_query, @$prepop) ?>"><i class="icon icon--gray icon--plus"></i> <i class="icon icon--gray icon--<?= Linetype::load(AUTH_TOKEN, $_type)->icon ?>"></i></a>
     <?php endforeach ?>
 </nav>

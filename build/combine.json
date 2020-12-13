@@ -5,6 +5,7 @@
         "extension": "js",
         "files": [
             "node_modules/jquery/dist/jquery.min.js",
+            "src/js/tools.js",
             "src/js/graph.js",
             "src/js/blends.js"
         ]
@@ -14,9 +15,11 @@
         "basename": "styles",
         "extension": "css",
         "files": [
+            "src/css/tools/styles.css",
+            "src/css/tools/login.css",
             "src/css/styles.css",
-            "src/css/login.css",
-            "php:src/php/script/iconcss.php"
+            "php:src/php/script/iconcss.php",
+            "php:src/php/script/highlightcss.php"
         ]
     }
 }

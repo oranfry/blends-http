@@ -77,7 +77,7 @@ class Router extends \Router
          ***************************************/
 
         // login
-        'GET /' => ['PAGE' => 'frontend/login', 'AUTHSCHEME' => 'none'],
+        'GET /' => ['PAGE' => 'tools/login', 'AUTHSCHEME' => 'none'],
 
         // line
         'GET /([a-z]+)' => ['LINETYPE_NAME', 'LINE_ID' =>  null, 'PAGE' => 'frontend/line'],
@@ -101,5 +101,12 @@ class Router extends \Router
         'CLI reset-schema \S+ \S+' =>   [null, 'USERNAME', 'PASSWORD', 'PAGE' => 'cli/reset-schema', 'LAYOUT' => 'cli', 'AUTHSCHEME' => 'onetime'],
         'CLI h2n \S+ \S+' =>            [null, 'TABLE', 'H', 'PAGE' => 'cli/h2n', 'AUTHSCHEME' => 'none', 'LAYOUT' => 'cli'],
         'CLI n2h \S+ \S+' =>            [null, 'TABLE', 'N', 'PAGE' => 'cli/n2h', 'AUTHSCHEME' => 'none', 'LAYOUT' => 'cli'],
+        'POST /ajax/auth/login' => ['PAGE' => 'tools/ajax/auth/login', 'AUTHSCHEME' => 'none', 'LAYOUT' => 'json'],
+
+        /***************************************
+         *                STUBS                *
+         ***************************************/
+
+        'POST /ajax/auth/login' => ['PAGE' => 'tools/ajax/auth/login', 'AUTHSCHEME' => 'none', 'LAYOUT' => 'json'],
    ];
 }
