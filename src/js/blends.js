@@ -364,7 +364,7 @@
         var data = Object.fromEntries(formData);
 
         var handleSave = function() {
-            blends_api.linetypeSave(LINETYPE_NAME, data, back);
+            blends_api.lineSave(LINETYPE_NAME, data, back);
         };
 
         var $fileInputs = $form.find('input[type="file"]');
