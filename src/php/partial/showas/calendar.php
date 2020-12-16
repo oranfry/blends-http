@@ -16,22 +16,7 @@ function record_title($record, $fields)
         echo ' ';
     }
 }
-?>
-<style type="text/css">
-    <?php if (defined('HIGHLIGHT')): ?>
-        <?php
-            list($h) = hexToHsl(HIGHLIGHT);
-            list(, $s, $l) = hexToHsl(REFCOL);
 
-            $hex = hslToHex([$h, $s, $l]);
-        ?>
-
-        .calendar-month .col img { filter: hue-rotate(<?= round($h * 360) ?>deg) brightness(0.9); }
-        .calendar-month .col { color: #<?= adjustBrightness($hex, -100) ?>; }
-    <?php endif ?>
-</style>
-
-<?php
 $c = 0;
 for ($backtrack = 0; date('D', strtotime(date_shift($from, "-{$backtrack} day"))) != 'Mon'; $backtrack++);
 ?>
