@@ -12,19 +12,17 @@ $adhocfilters = ContextVariableSet::get('adhocfilters');
     <i class="icon icon--gray icon--times trigger-bulk-delete-lines" data-blend="<?= BLEND_NAME ?>"></i>
     <?php if ($repeater->period && count($types) == 1): ?><i class="icon icon--gray icon--plus modal-trigger" data-for="bulk-add-modal_<?= $types[0] ?>"></i><?php endif ?>
     <?php if (@$blend->printable): ?><i class="icon icon--gray icon--printer trigger-bulk-print-lines" data-blend="<?= BLEND_NAME ?>"></i><?php endif ?>
-</div>
-<?php if ($repeater->period && count($types) > 1): ?>
-    <div class="navset">
-        <div class="only-super1200 nav-title">Bulk Add</div>
+    <?php if ($repeater->period && count($types) > 1): ?>
         <div class="inline-rel">
-            <div class="nav-modal">
-                <div class="nav-dropdown"><?php foreach ($types as $_type): ?><a href="#"><i class="icon icon--gray icon--<?= Linetype::load(AUTH_TOKEN, $_type)->icon ?> modal-trigger" data-for="bulk-add-modal_<?= $_type ?>"></i></a><?php endforeach ?></div>
+            <div class="inline-modal">
+                <nav>
+                    <?php foreach ($types as $_type): ?><a href="#"><i class="icon icon--gray icon--<?= Linetype::load(AUTH_TOKEN, $_type)->icon ?> modal-trigger" data-for="bulk-add-modal_<?= $_type ?>"></i></a><?php endforeach ?>
+                </nav>
             </div>
-            <i class="nav-modal-trigger icon icon--gray icon--plus only-sub1200"></i>
+            <i class="inline-modal-trigger icon icon--gray icon--plus"></i>
         </div>
-    </div>
-<?php endif ?>
-
+    <?php endif ?>
+</div>
 <div class="navset">
     <div class="nav-title">Filters</div>
     <div class="inline-rel">
@@ -135,7 +133,7 @@ $adhocfilters = ContextVariableSet::get('adhocfilters');
                 <div class="form-row">
                     <div class="form-row__label">&nbsp;</div>
                     <div class="form-row__value">
-                        <a class="only-sub1200 button cv-manip" data-manips="<?= $repeater->prefix ?>__period=">Clear</a>
+                        <a class="button cv-manip" data-manips="<?= $repeater->prefix ?>__period=">Clear</a>
                         <a class="button cv-manip" data-manips="">Apply</a>
                     </div>
                     <div style="clear: both"></div>
@@ -146,5 +144,14 @@ $adhocfilters = ContextVariableSet::get('adhocfilters');
             <div class="inline-modal-trigger drnav <?= $repeater->period ? 'current' : '' ?>"><i class="icon icon--gray icon--repeat"></i></div>
         <?php endif ?>
     </div>
-    <div class="only-super1200"><?php require APP_HOME . '/src/php/partial/adhocfilterlist.php'; ?></div>
+    <div class="only-super1200">
+        <?php require APP_HOME . '/src/php/partial/adhocfilterlist.php'; ?>
+        <?php if ($repeater->period): ?>
+            <a class="filter cv-manip" data-manips="<?= $repeater->prefix ?>__period=">
+                <i class="icon icon--repeat icon--gray icon--small"></i>
+                <span><?= $repeater->render() ?></span>
+                <i class="icon icon--times icon--gray icon--small filter__close-icon"></i>
+            </a>
+        <?php endif ?>
+    </div>
 </div>
