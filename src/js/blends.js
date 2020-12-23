@@ -3,19 +3,6 @@
         return Math.floor(Math.random() * 16777215).toString(16);
     };
 
-    $('.adhoc-toggle').on('click', function(){
-        var adhocvalue = prompt("New value");
-
-        if (adhocvalue) {
-            var $select = $(this).prev();
-            var $option = $('<option>' + adhocvalue + '</option>');
-
-            $option.insertAfter($select.children().first());
-            $select.val(adhocvalue);
-            $select.change();
-        }
-    });
-
     $('.bulk-edit-form input[name="action"]').on('click', function(e){
         e.preventDefault();
 
@@ -172,7 +159,9 @@
             query = current_filter;
         }
 
-        blends_api.blendDelete(BLEND_NAME, query);
+        blends_api.blendDelete(BLEND_NAME, query, function(data) {
+            window.location.reload();
+        });
     });
 
     $('.trigger-bulk-print-lines').on('click', function(event)

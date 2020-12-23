@@ -28,7 +28,11 @@ while ($f = fgets(STDIN)) {
     }
 
     if (function_exists('import_presave')) {
-        import_presave($linetype_name, $data);
+        $result = import_presave($linetype, $data, $token, $timestamp);
+
+        if (is_array($result)) {
+            extract($result);
+        }
     }
 
     $data = $linetype->save($token, $data, $timestamp);
@@ -39,7 +43,11 @@ while ($f = fgets(STDIN)) {
     }
 
     if (function_exists('import_postsave')) {
-        import_postsave($linetype_name, $data);
+        $result = import_postsave($linetype, $data, $token, $timestamp);
+
+        if (is_array($result)) {
+            extract($result);
+        }
     }
 
     echo str_pad(' ' . '(' . count($data) . ')', 12, '.', STR_PAD_LEFT) . ' ' . ($verb ?? '') . ' ' . implode(', ', array_map(function($v, $i) use($verb, $verbs) { return ($verb ? '' : $verbs[$i]) . $v->id; }, $data, array_keys($data))) . "\n";
