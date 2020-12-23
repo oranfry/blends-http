@@ -24,7 +24,7 @@ class Router extends \Router
         // save
         'POST /api/([a-z]+)' => ['LINETYPE_NAME', 'PAGE' => 'api/line/save', 'LAYOUT' => 'json', 'AUTHSCHEME' => 'header'],
         'POST /api/([a-z]+)/add' => ['LINETYPE_NAME', 'PAGE' => 'api/line/add', 'LAYOUT' => 'json', 'AUTHSCHEME' => 'header'],
-        'CLI save \S+ \S+ \S+' => ['PAGE' => 'cli/save', 'USERNAME', 'PASSWORD', 'LINETYPE'],
+        'CLI save \S+ \S+ \S+' => [null, 'USERNAME', 'PASSWORD', 'LINETYPE', 'PAGE' => 'cli/save', 'LAYOUT' => 'cli', 'AUTHSCHEME' => 'onetime'],
 
         // read
         'GET /api/([a-z]+)/([A-Z0-9]+)' => ['LINETYPE_NAME', 'LINE_ID', 'PAGE' => 'api/line/index', 'LAYOUT' => 'json', 'AUTHSCHEME' => 'header'],
