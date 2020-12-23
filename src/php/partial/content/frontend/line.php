@@ -8,7 +8,7 @@
                 <div class="form-row__value">
                     <?php $field = (object) ['name' => 'id'] ?>
                     <?php $value = @$line->id; ?>
-                    <?php require APP_HOME . "/src/php/partial/fieldtype/text.php"; ?>
+                    <?php require search_plugins("src/php/partial/fieldtype/text.php"); ?>
                 </div>
                 <div style="clear: both"></div>
             </div>
@@ -18,7 +18,7 @@
                     <div class="form-row__value">
                         <?php $field = (object) ['name' => 'user'] ?>
                         <?php $value = @$line->user ?? @$_GET['user']; ?>
-                        <?php require APP_HOME . "/src/php/partial/fieldtype/text.php"; ?>
+                        <?php require search_plugins("src/php/partial/fieldtype/text.php"); ?>
                     </div>
                     <div style="clear: both"></div>
                 </div>
@@ -39,7 +39,7 @@
                     <div class="form-row">
                         <div class="form-row__label" title="<?= $parentaliasshort ?>"><?= $incoming->parent_linetype ?></div>
                         <div class="form-row__value">
-                            <?php require APP_HOME . "/src/php/partial/fieldtype/text.php"; ?>
+                            <?php require search_plugins("src/php/partial/fieldtype/text.php"); ?>
                         </div>
                         <div style="clear: both"></div>
                     </div>
@@ -64,7 +64,7 @@
                     <div class="form-row">
                         <div class="form-row__label"><?= @$field->label ?? $field->name ?></div>
                         <div class="form-row__value">
-                            <?php require APP_HOME . "/src/php/partial/fieldtype/{$field->type}.php"; ?>
+                            <?php require search_plugins("src/php/partial/fieldtype/{$field->type}.php"); ?>
                         </div>
                         <div style="clear: both"></div>
                     </div>
@@ -101,7 +101,7 @@
                 $parent_query .= '&date=' . $line->date;
             }
 
-            require APP_HOME . "/src/php/partial/showas/list.php";
+            require search_plugins('src/php/partial/showas/list.php');
         }
     ?>
     <div style="clear: both"></div>
