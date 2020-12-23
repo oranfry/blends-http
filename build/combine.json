@@ -5,6 +5,7 @@
         "extension": "js",
         "files": [
             "node_modules/jquery/dist/jquery.min.js",
+            "src/js/blendsapi.js",
             "src/js/tools.js",
             "src/js/graph.js",
             "src/js/blends.js"
