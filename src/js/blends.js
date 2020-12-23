@@ -280,7 +280,9 @@
         var data = Object.fromEntries(formData);
 
         var handleSave = function() {
-            blends_api.lineSave(LINETYPE_NAME, data, back);
+            blends_api.lineSave(LINETYPE_NAME, [data], function(data) {
+                window.location.href = back;
+            });
         };
 
         var $fileInputs = $form.find('input[type="file"]');
@@ -319,107 +321,4 @@
             reader.readAsBinaryString(file);
         });
     });
-
-    var repeaterChanged = function(){
-        if ($('.repeater-select').val()) {
-            var r = new RegExp($('.repeater-select').val());
-
-            $('.repeater-modal [data-repeaters]').each(function(){
-                $(this).toggle($(this).data('repeaters').match(r) !== null);
-            });
-        } else {
-            $('.repeater-modal [data-repeaters]').hide();
-        }
-    };
-
-    $('.repeater-select').on('change', repeaterChanged);
-    repeaterChanged();
-
-    $('.easy-table tr .selectall').on('click', function(e){
-        var $table = $(this).closest('table');
-        var $tbody = $(this).closest('tbody');
-        var $block;
-
-        if ($tbody.length) {
-            $block = $tbody;
-        } else {
-            $block = $table;
-        }
-
-        var $boxes = $block.find('tr[data-id] .when-selecting input[type="checkbox"]');
-        var checked = $boxes.filter(':checked').length > 0;
-        $boxes.prop('checked', !checked);
-        $boxes.each(function(){
-            $(this).closest('tr[data-id]').toggleClass('selected', $(this).is(':checked'));
-        });
-    });
-
-    $('.toggle-selecting').on('click', function(){
-        let $table = $(this).closest('.easy-table');
-        let selecting = $table.hasClass('selecting');
-        selecting = !selecting;
-
-        $table.toggleClass('selecting', selecting);
-
-        if (!selecting) {
-            $table.find('.when-selecting input[type="checkbox"]').prop('checked', false).each(function(){
-                $(this).closest('tr[data-id]').removeClass('selected');
-            });
-        }
-    });
-
-    $('.when-selecting input').on('change', function(){
-        $(this).closest('tr[data-id]').toggleClass('selected', $(this).is(':checked'));
-    });
-
-    $('.file-field-controls__delete, .file-field-controls__generate, .file-field-controls__cancel, .file-field-controls__change').click(function(){
-        var $controls = $(this).closest('.file-field-controls');
-        var $input = $controls.find('.file-field-controls__input');
-        var $actions = $controls.find('.file-field-controls__actions');
-        var $willdelete = $controls.find('.file-field-controls__willdelete');
-        var $willgenerate = $controls.find('.file-field-controls__willgenerate');
-        var name = $controls.find('input[type="file"]').attr('name');
-
-        if ($(this).hasClass('file-field-controls__delete')) {
-            $willdelete.append($('<input type="hidden" name="' + name + '_delete" value="1">'));
-            $input.hide();
-            $willdelete.show();
-            $actions.hide();
-        } else if ($(this).hasClass('file-field-controls__change')) {
-            $input.show();
-            $willdelete.hide();
-            $actions.hide();
-        } else if ($(this).hasClass('file-field-controls__generate')) {
-            $willgenerate.append($('<input type="hidden" name="' + name + '_generate" value="1">'));
-            $input.hide();
-            $willgenerate.show();
-            $actions.hide();
-        } else if ($(this).hasClass('file-field-controls__cancel')) {
-            $controls.find('input[type="hidden"]').remove();
-            $willdelete.hide();
-            $willgenerate.hide();
-
-            if ($actions.length) {
-                $actions.show();
-                $input.hide();
-            } else {
-                $actions.hide();
-                $input.show();
-            }
-        }
-    });
-
-    function getSelectionQuery($selected)
-    {
-        var deepids = $selected.map(function(){
-            return $(this).data('type') + ':' + $(this).data('id');
-        }).get();
-
-        return 'deepid=' + deepids.join(',');
-    }
-
-    function getSelected()
-    {
-        return $('tr[data-id] .when-selecting input[type="checkbox"]:checked').closest('tr[data-id]');
-    }
 })();

@@ -9,39 +9,17 @@ if (!preg_match('/^[a-z]*$/', @$_GET['context'])) {
     error_response("Invalid context");
 }
 
-define('MAX_COLUMN_WIDTH', 25);
+define('MAX_COLUMN_WIDTH', 100);
 
-function get_current_filters($fields)
+function get_basic_filters($fields)
 {
     $filters = [];
-
-    $daterange = new Daterange('daterange');
-    $repeater = new Repeater(BLEND_NAME . "_repeater");
     $datefield = null;
+    $repeater = new Repeater(BLEND_NAME . "_repeater");
 
     foreach ($fields as $field) {
-        if (!@$field->main) {
-            continue;
-        }
-
         if ($field->type == 'date') {
             $datefield = $field;
-
-            if ($daterange->from) {
-                $filters[] = (object)[
-                    'field' => 'date',
-                    'value' => $daterange->from,
-                    'cmp' => '>=',
-                ];
-            }
-
-            if ($daterange->to) {
-                $filters[] = (object)[
-                    'field' => 'date',
-                    'value' => $daterange->to,
-                    'cmp' => '<=',
-                ];
-            }
         } else {
             $csv = new Value(BLEND_NAME . "_{$field->name}");
             if ($csv->value) {
@@ -63,17 +41,43 @@ function get_current_filters($fields)
     return $filters;
 }
 
-function get_past_filters($fields)
+
+function get_current_filters($fields)
 {
-    $filters = [];
+    $filters = get_basic_filters($fields);
+
     $daterange = new Daterange('daterange');
-    $repeater = new Repeater(BLEND_NAME . "_repeater");
-    $datefield = null;
 
     foreach ($fields as $field) {
         if ($field->type == 'date') {
-            $datefield = $field;
+            if ($daterange->from) {
+                $filters[] = (object)[
+                    'field' => 'date',
+                    'value' => $daterange->from,
+                    'cmp' => '>=',
+                ];
+            }
 
+            if ($daterange->to) {
+                $filters[] = (object)[
+                    'field' => 'date',
+                    'value' => $daterange->to,
+                    'cmp' => '<=',
+                ];
+            }
+        }
+    }
+
+    return $filters;
+}
+
+function get_past_filters($fields)
+{
+    $filters = get_basic_filters($fields);
+    $daterange = new Daterange('daterange');
+
+    foreach ($fields as $field) {
+        if ($field->type == 'date') {
             if ($daterange->from) {
                 $filters[] = (object)[
                     'field' => 'date',
@@ -81,23 +85,30 @@ function get_past_filters($fields)
                     'cmp' => '<',
                 ];
             }
-        } else {
-            $csv = new Value(BLEND_NAME . "_{$field->name}");
-            if ($csv->value) {
-                $filters[] = (object) [
-                    'field' => $field->name,
-                    'value' => $csv->value,
-                    'cmp' => '=',
+        }
+    }
+
+    return $filters;
+}
+
+function get_current_plus_past_filters($fields)
+{
+    $filters = get_basic_filters($fields);
+    $daterange = new Daterange('daterange');
+
+    foreach ($fields as $field) {
+        if ($field->type == 'date') {
+            if ($daterange->to) {
+                $filters[] = (object)[
+                    'field' => 'date',
+                    'value' => $daterange->to,
+                    'cmp' => '<=',
                 ];
             }
         }
     }
 
-    if ($datefield && $repeater->period) {
-        $filters = array_merge($filters, get_repeater_filters($repeater, $datefield->name));
-    }
-
-    return array_merge($filters, get_adhoc_filters());
+    return $filters;
 }
 
 function get_adhoc_filters()
@@ -211,114 +222,11 @@ function editlink($id, $type)
     return "/{$type}/{$id}?back={$back}";
 }
 
-function get_repeater_dates($repeater, $from, $to)
-{
-    $period = $repeater->period;
-
-    if ($period == 'day') {
-        $n = $repeater->n;
-        $pegdate = $repeater->pegdate;
-        $fastforward = $repeater->ff;
-        $offset = '';
-    } elseif ($period == 'month') {
-        $day = $repeater->day;
-        $round = $repeater->round;
-        $fastforward = $repeater->ff;
-        $offset = $repeater->offset;
-    } elseif ($period == 'year') {
-        $month = $repeater->month;
-        $day = $repeater->day;
-        $round = $repeater->round;
-        $fastforward = $repeater->ff;
-        $offset = $repeater->offset;
-    } else {
-        error_response("Invalid period");
-    }
-
-    if ($offset) {
-        if (!preg_match('/^([+-][1-9][0-9]*) (day|month|year)$/', $offset, $groups)) {
-            error_response('Invalid offset');
-        }
-
-        $offsetMagnitude = intval(preg_replace('/[+-]/', '', $groups[1]));
-        $offsetSign = preg_match('/-/', $groups[1]) ? '-' : '+';
-        $offsetSignNegated = $offsetSign == '-' ? '+' : '-';
-        $offsetPeriod = $groups[2];
-    }
-
-    $start = $from;
-    $end = $to;
-
-    if ($offset && $offsetMagnitude) {
-        $start = date_shift($start, "{$offsetSignNegated}{$offsetMagnitude} {$offsetPeriod}");
-        $end = date_shift($end, "{$offsetSignNegated}{$offsetMagnitude} {$offsetPeriod}");
-    }
-
-    if ($fastforward) {
-        $start = date_shift($start, "-6 day");
-        $end = date_shift($end, "-6 day");
-    }
-
-    $dates = [];
-
-    for ($d = $start; $d <= $end; $d = date_shift($d, '+1 day')) {
-        if ($period == 'day') {
-            $a = strtotime("{$d} 00:00:00 +0000") / 86400;
-            $b = strtotime("{$pegdate} 00:00:00 +0000") / 86400;
-
-            if (($a - $b) % $n == 0) {
-                $dates[] = $d;
-            }
-        } elseif (
-            preg_replace('/.*-/', '', $d) == ($round ? min($day, date('t', strtotime($d))) : $day) &&
-            ($period != 'year' || preg_replace('/.*-(.*)-.*/', '$1', $d) == $month)
-        ) {
-            $dates[] = $d;
-        }
-    }
-
-    // fastforward and offset
-
-    for ($i = 0; $i < count($dates); $i++) {
-        if ($fastforward) {
-            while (date('w', strtotime($dates[$i])) != $fastforward - 1) {
-                $dates[$i] = date_shift($dates[$i], "+1 day");
-            }
-        }
-
-        if ($offset && $offsetMagnitude) {
-            $dates[$i] = date_shift($dates[$i], "{$offsetSign}{$offsetMagnitude} {$offsetPeriod}");
-        }
-    }
-
-    return $dates;
-}
-
 function doover()
 {
     setcookie('token', '', time() - 3600);
     header('Location: /');
     die();
-}
-
-function get_query_filters()
-{
-    $filters = [];
-
-    foreach (explode('&', $_SERVER['QUERY_STRING']) as $v) {
-        $r = preg_split('/(\*=|>=|<=|~|=|<|>)/', urldecode($v), -1, PREG_SPLIT_DELIM_CAPTURE);
-
-        if (count($r) == 3) {
-            $values = explode(',', $r[2]);
-            $filters[] = (object) [
-                'field' => $r[0],
-                'cmp' => $r[1],
-                'value' => count($values) > 1 ? $values : reset($values),
-            ];
-        }
-    }
-
-    return $filters;
 }
 
 function build_table_definitions($token)
@@ -330,23 +238,6 @@ function build_table_definitions($token)
             'master_record_lock' => "create table `master_record_lock` (`counter` int default null) engine=innodb default charset=latin1",
         ],
         'tablelink' => [],
-    ];
-
-    $defs = [
-        'text' => "varchar(255) null",
-        'numberdp' => 'decimal (32, 16) null',
-        'number' => 'integer null',
-        'multiline' => "text",
-        'date' => "date",
-        'timestamp' => "timestamp",
-    ];
-
-    $examples = [
-        'text' => "'hello'",
-        'number' => '1.23',
-        'multiline' => "'multiline\ntext'",
-        'date' => "'2020-01-01'",
-        'timestamp' => "'2020-01-01 01:02:03'",
     ];
 
     $tablelinks = [];
@@ -361,6 +252,7 @@ function build_table_definitions($token)
                 'id' => (object) ['def' => 'char(10) not null', 'primary' => true],
                 'user' => (object) ['def' => 'varchar(255) default null'],
                 'created' => (object) ['def' => 'timestamp not null default current_timestamp'],
+                'modified' => (object) ['def' => 'timestamp not null default current_timestamp on update current_timestamp'],
             ];
         }
 
@@ -390,7 +282,13 @@ function build_table_definitions($token)
     foreach ($schemata as $table => $fields) {
         $definitions['record'][$table] = "create table `{$table}` (" . implode(", ", array_map(function($def, $fieldName){
             return "`{$fieldName}` {$def->def}";
-        }, $fields, array_keys($fields))) . ", primary key (`id`)) engine=InnoDB default charset=latin1";
+        }, $fields, array_keys($fields))) . ", primary key (`id`), " . implode(", ", array_filter(array_map(function($def, $fieldName){
+            if (in_array($fieldName, ['id', 'created', 'modified']) || preg_match('/^[a-z]*(?:text|blob)\b/', strtolower($def->def))) {
+                return;
+            }
+
+            return "index(`{$fieldName}`)";
+        }, $fields, array_keys($fields)))) . ") engine=InnoDB default charset=latin1";
     }
 
     foreach (array_keys($tablelinks) as $tablelinkname) {
