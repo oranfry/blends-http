@@ -5,12 +5,6 @@ use contextvariableset\Repeater;
 use contextvariableset\Value;
 use contextvariableset\Filter;
 
-if (!preg_match('/^[a-z]*$/', @$_GET['context'])) {
-    error_response("Invalid context");
-}
-
-define('MAX_COLUMN_WIDTH', 100);
-
 function get_basic_filters($fields)
 {
     $filters = [];
@@ -222,13 +216,6 @@ function editlink($id, $type)
     return "/{$type}/{$id}?back={$back}";
 }
 
-function doover()
-{
-    setcookie('token', '', time() - 3600);
-    header('Location: /');
-    die();
-}
-
 function build_table_definitions($token)
 {
     $schemata = [];
@@ -316,17 +303,4 @@ function build_table_definitions($token)
     }
 
     return $definitions;
-}
-
-function landingpage()
-{
-    $blends = @BlendsConfig::get($_COOKIE['token'])->blends;
-
-    if (!$blends || !count($blends)) {
-        error_response('No blends set up');
-    }
-
-    $blend = array_keys($blends)[0];
-
-    return "/blend/{$blend}";
 }

@@ -31,7 +31,7 @@ $adhocfilters = ContextVariableSet::get('adhocfilters');
                 <select>
                     <option></option>
                     <?php
-                    foreach ($all_fields as $field) {
+                    foreach ($fields as $field) {
                         if (@$field->main) {
                             continue;
                         } ?><option><?= $field->name ?></option><?php
@@ -44,7 +44,7 @@ $adhocfilters = ContextVariableSet::get('adhocfilters');
                 <div class="repeater-filter-value" style="display: none">
                 </div>
                 <button class="button" type="button">Add Filter</button>
-                <div class="only-sub1200"><?php require APP_HOME . '/src/php/partial/adhocfilterlist.php'; ?></div>
+                <div class="only-sub1200"><?php require search_plugins('src/php/partial/adhocfilterlist.php'); ?></div>
             </div>
         </div>
         <div class="inline-modal-trigger drnav <?= $adhocfilters->value ? 'current' : '' ?>"><i class="icon icon--gray icon--funnel"></i></div>
@@ -145,7 +145,7 @@ $adhocfilters = ContextVariableSet::get('adhocfilters');
         <?php endif ?>
     </div>
     <div class="only-super1200">
-        <?php require APP_HOME . '/src/php/partial/adhocfilterlist.php'; ?>
+        <?php require search_plugins('src/php/partial/adhocfilterlist.php'); ?>
         <?php if ($repeater->period): ?>
             <a class="filter cv-manip" data-manips="<?= $repeater->prefix ?>__period=">
                 <i class="icon icon--repeat icon--gray icon--small"></i>

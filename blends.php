@@ -1,5 +1,6 @@
 #!/usr/bin/php
 <?php
 define('APP_HOME', __DIR__);
-require __DIR__ . '/plugins/subsimple/subsimple.php';
+@include APP_HOME . '/machine.php';
+require WWW_HOME . '/plugins/subsimple/subsimple.php';
 

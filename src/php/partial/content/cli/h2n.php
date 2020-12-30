@@ -1,2 +1,0 @@
-<?= $found ?? 'Not Found' ?>
-

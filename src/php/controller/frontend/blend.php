@@ -164,5 +164,5 @@ return [
     'types' => $types,
     'generic' => $generic,
     'prepop' => $prepop,
-    'title' => BLEND_NAME . ($daterange ? ' &bull; ' . $daterange->getTitle() : ''),
+    'title' => BLEND_NAME . (@$daterange ? ' &bull; ' . $daterange->getTitle() : ''),
 ];

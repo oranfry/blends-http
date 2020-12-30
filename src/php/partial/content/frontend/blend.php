@@ -6,7 +6,7 @@
 
 <div class="modal" id="bulk-edit-modal" style="background-color: #eee">
     <form method="post" class="bulk-edit-form">
-        <?php foreach ($all_fields as $field): ?>
+        <?php foreach ($fields as $field): ?>
             <?php $options = @$suggested_values[$field->name]; ?>
             <?php $value = @$generic->{$field->name}; ?>
             <?php $checked = property_exists($generic, $field->name); ?>
