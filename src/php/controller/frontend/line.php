@@ -29,4 +29,5 @@ return [
     'parentlink' => $parentlink,
     'parenttype' => $parenttype,
     'parentid' => $parentid,
+    'title' => @$linetype->label ?: ucwords($linetype->name),
 ];

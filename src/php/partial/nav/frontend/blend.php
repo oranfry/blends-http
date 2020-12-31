@@ -1,11 +1,37 @@
-<?php
-use contextvariableset\Filter;
+<?php use contextvariableset\Hidden; ?>
+<?php use contextvariableset\Repeater; ?>
+<?php use contextvariableset\Showas; ?>
+<?php use contextvariableset\Filter; ?>
+<?php if (defined('BLEND_NAME')): ?>
+    <?php
+        $query = implode('&', array_map(function($v, $k) { return "{$k}={$v}"; }, $_GET, array_keys($_GET)));
+        $query = $query ? '?' . $query : '';
+    ?>
+    <div class="navset">
+        <div class="nav-title">Blend</div>
+        <div class="inline-rel">
+            <div class="inline-modal listable">
+                <div class="inline-dropdown">
+                    <?php foreach ($blend_lookup as $name => $blend) : ?>
+                        <a href="/blend/<?= $blend->name ?><?= $query ?>" <?= BLEND_NAME == $name ? 'class="current"' : '' ?>><?= $blend->name ?></a>
+                    <?php endforeach ?>
+                </div>
+            </div>
+            <span class="inline-modal-trigger"><?= BLEND_NAME ?></span>
+        </div>
+    </div>
 
-$blend = $blend_lookup[BLEND_NAME];
-$repeater = ContextVariableSet::get('repeater');
-$adhocfilters = ContextVariableSet::get('adhocfilters');
-?>
-
+    <?php $cvss = ContextVariableSet::getAll(); ?>
+    <?php if (count($cvss)) : ?>
+        <?php foreach ($cvss as $name => $cvs): ?>
+            <?php if ($cvs instanceof Hidden || $cvs instanceof Repeater) : ?><?php continue; ?><?php endif ?>
+            <?php $cvs->display(); ?>
+        <?php endforeach ?>
+    <?php endif ?>
+<?php endif ?>
+<?php $blend = $blend_lookup[BLEND_NAME]; ?>
+<?php $repeater = ContextVariableSet::get('repeater'); ?>
+<?php $adhocfilters = ContextVariableSet::get('adhocfilters'); ?>
 <div class="navset">
     <div class="only-super1200 nav-title">Bulk</div>
     <i class="icon icon--gray icon--edit modal-trigger" data-for="bulk-edit-modal"></i>

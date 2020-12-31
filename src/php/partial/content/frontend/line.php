@@ -1,5 +1,3 @@
-<h2><?= @$linetype->label ?: ucwords($linetype->name) ?></h2>
-
 <div class="samewidth">
     <div class="line">
         <form method="post" class="edit-form" <?= $hasFileFields ? 'enctype="multipart/form-data"' : '' ?>>

@@ -1,7 +1,5 @@
 <?php use contextvariableset\Showas; ?>
 <?php $blend = $blend_lookup[BLEND_NAME]; ?>
-<h2 class="only-wide"><?= @$blend->label ?: $blend->name ?></h2>
-
 <?php require search_plugins('src/php/partial/showas/' . SHOWAS . '.php'); ?>
 
 <div class="modal" id="bulk-edit-modal" style="background-color: #eee">
