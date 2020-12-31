@@ -41,7 +41,9 @@
         }
 
         var handleSave = function() {
-            blends_api.updateBlend(BLEND_NAME, query, data);
+            blends_api.updateBlend(BLEND_NAME, query, data, function(){
+                window.location.reload();
+            });
         };
 
         var numLoadedFiles = 0;
