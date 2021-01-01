@@ -57,21 +57,6 @@ foreach ($fields as $field) {
         $daterange = new Daterange('daterange');
         $showass[] = 'calendar';
         ContextVariableSet::put('daterange', $daterange);
-    } else {
-        $cvs = new Value(BLEND_NAME . "_{$field->name}");
-        $cvs->label = $field->name;
-
-        if (property_exists($field, 'filteroptions')) {
-            if (is_array($field->filteroptions)) {
-                $cvs->options = $field->filteroptions;
-            } elseif (is_callable($field->filteroptions)) {
-                $cvs->options = ($field->filteroptions)(AUTH_TOKEN);
-            } else {
-                error_response('filteroptions should be an array or a closure');
-            }
-        }
-
-        ContextVariableSet::put($field->name, $cvs);
     }
 }
 
