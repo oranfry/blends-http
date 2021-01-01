@@ -56,13 +56,9 @@
             <div id="filter-form" class="nav-dropdown nav-dropdown--spacey">
                 <select>
                     <option></option>
-                    <?php
-                    foreach ($fields as $field) {
-                        if (@$field->main) {
-                            continue;
-                        } ?><option><?= $field->name ?></option><?php
-                    }
-                    ?>
+                    <?php foreach ($fields as $field) : ?>
+                        <option><?= $field->name ?></option>
+                    <?php endforeach ?>
                 </select>
                 <div class="standard-filter-value">
                     <input type="text" style="width: 15em">
