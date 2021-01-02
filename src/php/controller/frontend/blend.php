@@ -17,7 +17,7 @@ foreach (array_keys(BlendsConfig::get(AUTH_TOKEN)->blends) as $name) {
 unset($_blend);
 
 $blend = @$blend_lookup[BLEND_NAME];
-$showass = ['list'];
+$showass = ['list', 'summaries'];
 
 if (!$blend) {
     header("Location: /");
@@ -89,36 +89,6 @@ foreach ($fields as $field) {
     }
 }
 
-$records = $blend->search(AUTH_TOKEN, $filters);
-
-if ($records === false) {
-    doover();
-}
-
-foreach ($records as $record) {
-    foreach ($fields as $field) {
-        if (!in_array($record->{$field->name}, $generic_builder[$field->name])) {
-            $generic_builder[$field->name][] = $record->{$field->name};
-        }
-    }
-}
-
-foreach ($filters as $filter) {
-    if (
-        @$filter->cmp == 'like'
-        &&
-        strpos($filter->value, '%') === false
-    ) {
-        $fields = filter_objects($fields, 'name', 'not', $filter->field);
-    }
-}
-
-foreach ($generic_builder as $field => $values) {
-    if (count($values) == 1) {
-        $generic->{$field} = $values[0];
-    }
-}
-
 if (count($showass) > 1) {
     $showas = new Showas(BLEND_NAME . "_showas");
     $showas->options = $showass;
@@ -127,6 +97,39 @@ if (count($showass) > 1) {
     $showas->value = SHOWAS;
 } else {
     define('SHOWAS', @$showass[0] ?: 'list');
+}
+
+$records = [];
+$summaries = [];
+
+if (SHOWAS == 'summaries') {
+    $summaries = ['sum' => $blend->summary(AUTH_TOKEN, $filters)];
+} else {
+    $records = $blend->search(AUTH_TOKEN, $filters);
+
+    if ($records === false) {
+        doover();
+    }
+
+    foreach ($records as $record) {
+        foreach ($fields as $field) {
+            if (!in_array($record->{$field->name}, $generic_builder[$field->name])) {
+                $generic_builder[$field->name][] = $record->{$field->name};
+            }
+        }
+    }
+}
+
+foreach ($filters as $filter) {
+    if (@$filter->cmp == 'like' && strpos($filter->value, '%') === false) {
+        $fields = filter_objects($fields, 'name', 'not', $filter->field);
+    }
+}
+
+foreach ($generic_builder as $field => $values) {
+    if (count($values) == 1) {
+        $generic->{$field} = $values[0];
+    }
 }
 
 $prepop = [];
@@ -143,6 +146,7 @@ foreach ($filters as $filter) {
 
 return [
     'records' => $records,
+    'summaries' => $summaries,
     'blend_lookup' => $blend_lookup,
     'linetypes' => $linetypes,
     'fields' => $fields,
