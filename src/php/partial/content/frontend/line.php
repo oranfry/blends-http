@@ -99,6 +99,8 @@
                 $parent_query .= '&date=' . $line->date;
             }
 
+            ?><h3><?= $child->label ?></h3><?php
+
             require search_plugins('src/php/partial/showas/list.php');
         }
     ?>
